@@ -1,0 +1,68 @@
+proptypes.isRequired välitys!
+
+connector,
+listenTo,
+
+
+- Selviääkö actionit seuraavasta:  
+	actionName: (firstValue) => (secondValue) => ({
+		firstValue,
+		secondValue,
+	})
+	-> Ei varmaan tarvitse?
+
+actions = action(...args, currValue)
+
+createState() ??
+
+- Kuinka State välitetään kontekstissa VAIN lapselle..
+
+-- TODO -- 
+
+Malli ei näy componentWillMountissa??
+
+<Model>
+	<Listener>
+		<ComponentWithModel />
+	</Listener>
+</Model>
+
+<Model>
+	<Listener>
+		<ContainerComponentWithModel>
+			<Children>
+		</ContainerComponentWithModel>
+	</Listener>
+</Model>
+
+- Check naming, View -> ViewComponent etc.
+
+- createModel(initModel, actions, config)
+- config = {
+	logging: true, -- kirjaa tilamuutokset console.logiin
+	testing: true, -- julkaisee CreateModelin palauttamaan komponenttiin rajapinnan, jonka avulla komponentin tilan voi asettaa suoraan..? Tyyliin Model.setModel({...newModel})
+}
+
+- TEST CONFIG!
+
+// Ei toimi, koska kun palautetaan ModeledView React rakentaa siitä komponentin
+// -> React poistaa ylimääräiset ominaisuudet, kuten actions/getModel/setModel
+//
+// Jos halutaan vaihtaa komponentin tilaa ulkopuolelta, voisi varmaan tuoda
+// modelStreamin ulos komponentista
+//
+// // Init testing
+// console.log(testing);
+// if (testing) { 
+
+//     testObject = {
+//         actions: modelActions,
+//         getModel: modelStream.getModel,
+//         setModel: modelStream.setModel
+//     }
+//     // console.log(this, View);
+//     // .. View. vai this. ..?
+//     // View.actions = modelActions;
+//     // View.getModel = modelStream.getModel;
+//     // View.setModel = modelStream.setModel;
+// }
