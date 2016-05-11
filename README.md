@@ -6,79 +6,259 @@
 
 Used to create a model for a module.
 
-`**initModel**`
+`initModel`
 
 Initvalues for the model. Type of object.
 
-`const initModel = {
+```js
+const initModel = {
 	firstName: 'FirstName',
 	lastName: 'LastName'
-}`
+}
+```
 
-`**actions**`
+`actions`
 
 Actions to change the model. Type of object, actions can be either object or function.
 
-`const actions = {
+```js
+const actions = {
 	changeFirstNameTo: (firstName) => ({
 		firstName
 	}),
 	changeLastNameToJackSmith: {
 		lastName: 'Jack Smith'
 	}
-}`
+}
+```
 
-### createState
+CreateModel retuns another function, which you can connect to React component by passing the component as function parameter. CreateModel(ReactComponent) returns a react component.
 
-`*initState*`
+```js
+import {createModel} from 'kontti';
+
+const Model = createModel(initModel, actions);
+
+const ModeledComponent = Model(ReactComponent)
+
+``` 
+
+#### createState
+
+`initState`
 
 Initvalues for the state. Type of object.
 
-`const initState = {
+```js
+const initState = {
 	firstName: 'FirstName',
 	lastName: 'LastName'
-}`
+}
+```
 
-`*actions*`
+`actions`
 
 Actions to change the state. Type of object, actions can be either object or function.
 
-`const actions = {
+```js
+const actions = {
 	changeFirstNameTo: (firstName) => ({
 		firstName
 	}),
 	changeLastNameToJackSmith: {
 		lastName: 'Jack Smith'
 	}
-}`
+}
+```
 
-### connect
+CreateState retuns another function, which you can connect to React component by passing the component as function parameter. CreateState(ReactComponent) returns a react component.
 
-Used to connect React component to Model
+```js 
+import {createState} from 'kontti';
 
-### listenTo
+const State = createState(initState, actions);
 
-`*...listenedValues*`
+const StatedComponent = State(ReactComponent)
+
+``` 
+
+#### connect
+
+Used to connect React component to current Model.
+
+```js
+import {connect} from 'kontti';
+
+const ReactComponent = () => (
+	...
+)
+
+export default connect(ReactComponent)
+
+```
+
+#### listenTo
+
+`...listenedValues`
 
 Used to tell which Model values the component listens to. Listened values types are strings.
 
-`const listener = listenTo(
+```js
+import {listenTo} from 'kontti';
+
+const listener = listenTo(
 	'firstName',
 	'lastName'
-)`
+)
+```
 
-
-
-### listener
+#### listener
 -- DEPRECATED - Use listenTo instead --
 
-`*...listenedValues*`
+`...listenedValues`
 
 Used to tell which Model values the component listens to. Listened values types are strings.
 
-`listener(
+```js
+import {listener} from 'kontti';
+
+listener(
 	'firstName',
 	'lastName'
-)`
+)
+```
 
 ## Basic usage
+
+### With createModel
+
+Example.model.js
+```js
+import {createModel} from 'kontti';
+
+const initModel = {
+	firstName: 'FirstName',
+	lastName: 'LastName'
+}
+
+const actions = {
+	changeFirstNameTo: (firstName) => ({
+		firstName
+	}),
+	changeLastNameToJackSmith: {
+		lastName: 'Jack Smith'
+	}
+}
+
+export default createModel(initModel, actions)
+``` 
+
+ExampleParentComponent.jsx
+```js
+import ExampleModel from './Example.model.js';
+import ExampleChildComponent from './ExampleChildComponent.jsx';
+
+const ExampleParentComponent = () => (
+	<ExampleChildComponent />
+);
+
+export default ExampleModel(ExampleParentComponent);
+
+```
+
+ExampleChildComponent.jsx
+```js
+import {listenTo} from 'kontti';
+
+const listener = listenTo(
+	'firstName',
+	'lastName'
+)
+
+const ExampleChildComponent = ({
+	firstName,
+	secondName
+}, {
+	Model
+}) => {
+	const handleNameChangeClick = () => {
+		Model.changeLastNameToJackSmith();
+	}
+
+	return (
+		<div>
+			<p>{firstName}</p>
+			<p>{lastName}</p>
+			
+			<hr /> 
+			<button 
+				type='button'
+				onClick={handleNameChangeClick}
+				>
+				Change last name to Jack Smith
+			</button>
+		</div>
+	)
+}
+
+export default listener(ExampleChildComponent);
+
+```
+
+### With createState
+
+Example.state.js
+```js
+import {createState} from 'kontti';
+
+const initState = {
+	firstName: 'FirstName',
+	lastName: 'LastName'
+}
+
+const actions = {
+	changeFirstNameTo: (firstName) => ({
+		firstName
+	}),
+	changeLastNameToJackSmith: {
+		lastName: 'Jack Smith'
+	}
+}
+
+export default createState(initState, actions)
+``` 
+
+ExampleComponent.jsx
+```js
+import ExampleState from './Example.state.js';
+
+const ExampleComponent = ({
+	firstName,
+	secondName,
+
+	State
+}) => {
+
+	const handleNameChangeClick = () => {
+		State.changeLastNameToJackSmith();
+	}
+
+	return (
+		<div>
+			<p>{firstName}</p>
+			<p>{lastName}</p>
+			
+			<hr /> 
+			<button 
+				type='button'
+				onClick={handleNameChangeClick}
+				>
+				Change last name to Jack Smith
+			</button>
+		</div>
+	)
+}
+
+export default ExampleState(ExampleChildComponent);
+
+```
