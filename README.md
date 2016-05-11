@@ -2,11 +2,11 @@
 
 ## API 
 
-### createModel
+#### createModel
 
 Used to create a model for a module.
 
-`*initModel*`
+`**initModel**`
 
 Initvalues for the model. Type of object.
 
@@ -15,7 +15,7 @@ Initvalues for the model. Type of object.
 	lastName: 'LastName'
 }`
 
-`*actions*`
+`**actions**`
 
 Actions to change the model. Type of object, actions can be either object or function.
 
