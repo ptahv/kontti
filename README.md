@@ -4,7 +4,7 @@
 
 #### createModel
 
-Used to create a model for a module.
+Used to create a model for a module. Model is passed in context down to child components. Declaring a new Model in component hierarchy overrides the parent Model.
 
 `initModel`
 
@@ -37,7 +37,23 @@ CreateModel retuns another function, which you can connect to React component by
 ```js
 import {createModel} from 'kontti';
 
+const initModel = {
+	firstName: 'FirstName',
+	lastName: 'LastName'
+}
+
+const actions = {
+	changeFirstNameTo: (firstName) => ({
+		firstName
+	}),
+	changeLastNameToJackSmith: {
+		lastName: 'Jack Smith'
+	}
+}
+
 const Model = createModel(initModel, actions);
+
+...
 
 const ModeledComponent = Model(ReactComponent)
 
@@ -47,7 +63,7 @@ const ModeledComponent = Model(ReactComponent)
 
 `initState`
 
-Initvalues for the state. Type of object.
+Initvalues for the state. Type of object. State is passed only to the connected component.
 
 ```js
 const initState = {
@@ -76,7 +92,23 @@ CreateState retuns another function, which you can connect to React component by
 ```js 
 import {createState} from 'kontti';
 
+const initState = {
+	firstName: 'FirstName',
+	lastName: 'LastName'
+}
+
+const actions = {
+	changeFirstNameTo: (firstName) => ({
+		firstName
+	}),
+	changeLastNameToJackSmith: {
+		lastName: 'Jack Smith'
+	}
+}
+
 const State = createState(initState, actions);
+
+...
 
 const StatedComponent = State(ReactComponent)
 
@@ -110,6 +142,13 @@ const listener = listenTo(
 	'firstName',
 	'lastName'
 )
+
+const ReactComponent = () => (
+	...
+)
+
+export default listener(ReactComponent)
+
 ```
 
 #### listener
@@ -126,6 +165,13 @@ listener(
 	'firstName',
 	'lastName'
 )
+
+const ReactComponent = () => (
+	...
+)
+
+export default listener(ReactComponent)
+
 ```
 
 ## Basic usage
