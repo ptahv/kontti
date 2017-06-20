@@ -1,6 +1,6 @@
 {
   "name": "kontti",
-  "version": "2.0.0-alpha-1",
+  "version": "2.0.0-alpha-2",
   "description": "React viewmodel library",
   "main": "kontti.js",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/ptahv/kontti#readme",
   "dependencies":{
-    "striimi": "1.1.0",
+    "striimi": "1.1.1",
     "lodash": "4.17.4"
   }
 }
