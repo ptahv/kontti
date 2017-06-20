@@ -5,20 +5,20 @@
  *
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. 
- * 
+ *
  */
 
-import createModel from './lib/createModel.js';
-import createState from './lib/createState.js';
-import connect from './lib/connect.js';
-import listener from './lib/listener.js';
-import listenTo from './lib/listenTo.js';
+import kontti from './lib/kontti.js';
+
+export const model = kontti.model;
+export const state = kontti.state;
+export const connector = kontti.connector;
+export const pureConnector = kontti.pureConnector;
 
 export default {
-	createModel,
-	createState,
-	connect,
-	listener,
-	listenTo,
-}
+	model,
+	state,
 
+	connector,
+	pureConnector
+}

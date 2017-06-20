@@ -1,6 +1,6 @@
 BSD License
 
-For striimi software
+For kontti software
 
 Copyright (c) 2015-present, Petri Tahvanainen.
 All rights reserved.

@@ -1,21 +1,20 @@
 {
   "name": "kontti",
-  "version": "1.0.0",
-  "description": "React-module state-modeler library",
+  "version": "2.0.0-alpha-1",
+  "description": "React viewmodel library",
   "main": "kontti.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ptahv/kontti.git"
+    "url": "git+https://github.com/ptahv/kontti.git"
   },
-  "keywords": [
+  "keywords":[
     "react",
     "state",
     "model",
-    "module",
-    "viewmodule"
+    "viewmodel"
   ],
   "author": "Petri Tahvanainen",
   "license": "BSD",
@@ -23,8 +22,8 @@
     "url": "https://github.com/ptahv/kontti/issues"
   },
   "homepage": "https://github.com/ptahv/kontti#readme",
-  "dependencies": {
-    "striimi": "1.0.0",
-    "lodash": "4.6.1"
+  "dependencies":{
+    "striimi": "1.1.0",
+    "lodash": "4.17.4"
   }
 }
