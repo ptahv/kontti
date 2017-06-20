@@ -1,3 +1,0 @@
-TODO:
-- Pass : React.PropTypes.isRequired 
-- General model store

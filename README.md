@@ -1,310 +1,265 @@
-#Kontti
+# Kontti
 
-## API 
+React viewmodel -library.
 
-#### createModel
+## API
 
-Used to create a model for a module. Model is passed in context down to child components. Declaring a new Model in component hierarchy overrides the parent Model.
+Api consists of three methods: model, state, connector and pureConnector. 
 
-`initModel`
+Model is a viewmodel shared between its child components. Child model overrides parent model for its children, so everytime a model is created in react component hierarchy it replaces parent models.
 
-Initvalues for the model. Type of object.
+Viewmodel created by a model can be listened with a connector or a pureConnector -component. PureConnector -component acts as a connector -component, except it wont update on prop change but only on viewmodel changes.
 
-```js
-const initModel = {
-	firstName: 'FirstName',
-	lastName: 'LastName'
-}
-```
+State is used to create a viewmodel for a single component. State acts like model, except it cant be listened by child components. Using state wont override model.
 
-`actions`
+### model / state
 
-Actions to change the model. Type of object, actions can be either object or function.
+Takes initialization values and actions as parameters. Returns a Model / Store -component, which behaves like a connector component except it is used to initialize the viewmodel.
 
-```js
-const actions = {
-	changeFirstNameTo: (firstName) => ({
-		firstName
-	}),
-	changeLastNameToJackSmith: {
-		lastName: 'Jack Smith'
-	}
-}
-```
+State differs from Model in that it always gets all initValues as props, even if it wont listen to them.
 
-CreateModel retuns another function, which you can connect to React component by passing the component as function parameter. CreateModel(ReactComponent) returns a react component.
+`initValues`
 
-```js
-import {createModel} from 'kontti';
-
-const initModel = {
-	firstName: 'FirstName',
-	lastName: 'LastName'
-}
-
-const actions = {
-	changeFirstNameTo: (firstName) => ({
-		firstName
-	}),
-	changeLastNameToJackSmith: {
-		lastName: 'Jack Smith'
-	}
-}
-
-const Model = createModel(initModel, actions);
-
-...
-
-const ModeledComponent = Model(ReactComponent)
-
-``` 
-
-#### createState
-
-`initState`
-
-Initvalues for the state. Type of object. State is passed only to the connected component.
-
-```js
-const initState = {
-	firstName: 'FirstName',
-	lastName: 'LastName'
-}
-```
+An object, which contains the viewmodels initialization values.
 
 `actions`
 
-Actions to change the state. Type of object, actions can be either object or function.
+Custom actions for changing the model. Actions is a function, which returns an object of functions for altering the viewmodel. 
+
+Actions get an object as an parameter. This object contains the following methods for changing the viewmodel:
+- get: returns values of given keys. Takes string values as an argument.
+- set: sets and emits given values. Takes an object containing keys and values as an argument.
+- put: sets given values into store. Takes an object containing keys and values as an argument.
+
+#### simple example
 
 ```js
-const actions = {
-	changeFirstNameTo: (firstName) => ({
-		firstName
-	}),
-	changeLastNameToJackSmith: {
-		lastName: 'Jack Smith'
-	}
-}
-```
 
-CreateState retuns another function, which you can connect to React component by passing the component as function parameter. CreateState(ReactComponent) returns a react component.
+// State works the same way, just import {state} instead of {model}
 
-```js 
-import {createState} from 'kontti';
+import {model} from 'kontti';
 
-const initState = {
-	firstName: 'FirstName',
-	lastName: 'LastName'
-}
+export default model({
+    firstValue: 'value1',
+    secondValue: 'value2',
+}, ({get, set, put}) => ({
 
-const actions = {
-	changeFirstNameTo: (firstName) => ({
-		firstName
-	}),
-	changeLastNameToJackSmith: {
-		lastName: 'Jack Smith'
-	}
-}
+    fetchBothValues: () => get(
+        'firstValue', 
+        'secondValue'
+    ),
 
-const State = createState(initState, actions);
+    storeNewValues: () => set({
+        firstValue: '1',
+        secondValue: '2'
+    }),
 
-...
-
-const StatedComponent = State(ReactComponent)
-
-``` 
-
-#### connect
-
-Used to connect React component to current Model.
-
-```js
-import {connect} from 'kontti';
-
-const ReactComponent = () => (
-	...
-)
-
-export default connect(ReactComponent)
+    insertNewValues: () => put({
+        firstValue: 'this doesnt emit new viewmodel',
+        secondValue: 'this doesnt emit new viewmodel'
+    })
+});
 
 ```
 
-#### listenTo
+### connector / pureConnector
 
-`...listenedValues`
+Takes listened keys, view component and options as parameters. Returns component wrapped to connector -component. PureConnector acts like a connector component, except it only updates on viewmodel changes.
 
-Used to tell which Model values the component listens to. Listened values types are strings.
+Listened keys can be either list of string values or a propTypes -object.
 
-```js
-import {listenTo} from 'kontti';
+Component is a react component, either class or function. 
 
-const listener = listenTo(
-	'firstName',
-	'lastName'
-)
+Options contains options for the connector. At the moment options is only used to give contextTypes.
 
-const ReactComponent = () => (
-	...
-)
+Component gets listened keys and their viewmodel values as props. Component also gets Model/State -function and ModelStore/StateStore- and Subscriber -objects as context, depending on the viewmodel -type.
 
-export default listener(ReactComponent)
+`listenedKeys`
 
-```
+Either list of strings or a propTypes type of an object.
 
-#### listener
--- DEPRECATED - Use listenTo instead --
+`component`
 
-`...listenedValues`
+React component which will be is wrapped by the connector.
 
-Used to tell which Model values the component listens to. Listened values types are strings.
+`options`
 
-```js
-import {listener} from 'kontti';
+An object, which is used for givin contextTypes for the wrapped component.
 
-listener(
-	'firstName',
-	'lastName'
-)
+`Model / State`
 
-const ReactComponent = () => (
-	...
-)
+Model / state is used to manipulate the viewmodel. It is a function, which contains default actions for altering the viewmodel as properties.
 
-export default listener(ReactComponent)
+The Model / state -function is used to batch default actions for not firing multiple renders when altering many values at once. The function gets model / state as a paramter.
+
+Model / state contains default actions as properties. Default actions are set- / get -methods for every value initialized in viewmodel. Method has a get/set -prefix and value key with first letter as uppercase.
+
+``` js 
+
+Model(m => {
+    m.getFirstValue() // returns the current firstValue
+    
+    m.setFirstValue(/* insert new value here */) // sets and emits new firstValue
+})
 
 ```
 
-## Basic usage
+`ModelStore / StateStore`
 
-### With createModel
+Also used to manipulate the viewmodel. Provides the actions as created when creating store/model as properties.
 
-Example.model.js
-```js
-import {createModel} from 'kontti';
+`Subscriber`
 
-const initModel = {
-	firstName: 'FirstName',
-	lastName: 'LastName'
-}
+Has getStoreChanged- and getPropsChanged -function as parameters. 
 
-const actions = {
-	changeFirstNameTo: (firstName) => ({
-		firstName
-	}),
-	changeLastNameToJackSmith: {
-		lastName: 'Jack Smith'
-	}
-}
+GetStoreChanged returns true if store has changed on update.
 
-export default createModel(initModel, actions)
-``` 
+GetPropsChanged returns true if props have changed on update.
 
-ExampleParentComponent.jsx
-```js
-import ExampleModel from './Example.model.js';
-import ExampleChildComponent from './ExampleChildComponent.jsx';
+``` js
 
-const ExampleParentComponent = () => (
-	<ExampleChildComponent />
-);
+// PureConnector works the same way as connector, except it only updates on viewmodel changes
 
-export default ExampleModel(ExampleParentComponent);
+import {connector} from 'kontti';
 
-```
-
-ExampleChildComponent.jsx
-```js
-import {listenTo} from 'kontti';
-
-const listener = listenTo(
-	'firstName',
-	'lastName'
-)
-
-const ExampleChildComponent = ({
-	firstName,
-	secondName
+export default ('firstValue', 'secondValue', 
+({
+    firstValue, 
+    secondValue
 }, {
-	Model
+    Model,
+    ModelStore
 }) => {
-	const handleNameChangeClick = () => {
-		Model.changeLastNameToJackSmith();
-	}
 
-	return (
-		<div>
-			<p>{firstName}</p>
-			<p>{lastName}</p>
-			
-			<hr /> 
-			<button 
-				type='button'
-				onClick={handleNameChangeClick}
-				>
-				Change last name to Jack Smith
-			</button>
-		</div>
-	)
-}
+    const handleModelChange = () => {
+        Model.setFirstValue('newValue')
+    }
 
-export default listener(ExampleChildComponent);
+    const handleModelStoreChange = () => {
+        // Created in model / state -example
+        ModelStore.storeNewValues();
+    }
 
-```
+    return (
+        <div> 
+            <button onClick={handleModelChange}> Change Model </button>
+            <button onClick={handleModelStoreChange}> Change ModelStore </button>
+        </div>
+    )
+})
 
-### With createState
+´´´
 
-Example.state.js
-```js
-import {createState} from 'kontti';
+### Example
 
-const initState = {
-	firstName: 'FirstName',
-	lastName: 'LastName'
-}
+A simple example. Just to demonstrate the productivity of Kontti.
 
-const actions = {
-	changeFirstNameTo: (firstName) => ({
-		firstName
-	}),
-	changeLastNameToJackSmith: {
-		lastName: 'Jack Smith'
-	}
-}
+``` js
 
-export default createState(initState, actions)
+/* Create a model */
+
+import {model} from 'kontti';
+
+const HelloModel = model({
+    name: null
+})
+
+/* Create the name setter -component */
+import {pureConnector} from 'kontti';
+
+const NameSetter = pureConnector((props, {
+    Model
+}) => {
+
+    const handleInputChange = (e) => {
+        Model.setName(e.target.value)
+    }
+
+    return (
+        <input onChange={handleInputChange} />
+    )
+})
+
+/* Create the name displayer -component */
+import {pureConnector} from 'kontti';
+
+const NameDisplayer = pureConnector('name', (
+    vm
+) => (
+    <div>
+        Hello {vm.name}!
+    </div>
+)
+
+/* Create the modeler -compoent */
+
+const HelloYou = HelloModel(() => (
+    <div>
+        <NameSetter />
+        <NameDisplayer />
+    </div>
+
+))
+
+// HelloYou is ready to be rendered
+
 ``` 
 
-ExampleComponent.jsx
-```js
-import ExampleState from './Example.state.js';
+A more complicated example. It is meant just to show some different possibilities of using Kontti. Normally you would use state instead of model for just one component.
 
-const ExampleComponent = ({
-	firstName,
-	secondName,
+``` js 
 
-	State
-}) => {
+/* Create Model */
+import {model} from 'kontti';
+import {timerApi} from 'services.js'; // Just some imaginary API file for example
 
-	const handleNameChangeClick = () => {
-		State.changeLastNameToJackSmith();
-	}
+const FetchModel = model({
+    timer: null,
+    testRows: []
+}, s => ({
+    fetchTestRows: () => {
+        // Wont emit changes
+        s.put({
+            timer: Date.now()
+        })
 
-	return (
-		<div>
-			<p>{firstName}</p>
-			<p>{lastName}</p>
-			
-			<hr /> 
-			<button 
-				type='button'
-				onClick={handleNameChangeClick}
-				>
-				Change last name to Jack Smith
-			</button>
-		</div>
-	)
-}
+        timerApi.getData()
+            .then((data) => {
+                s.set({
+                    timer: s.getTimer() - Date.now(),
+                    testRows: data.rows
+                })
+            })
+    }
+})
 
-export default ExampleState(ExampleChildComponent);
+/* Create the FetchTimer */
+
+const FetchTimer = FetchModel({
+    timer: propTypes.number,
+    testRows: propTypes.array
+}, (vm, {
+    ModelStore
+}) => (
+    <div>
+        <button onClick={ModelStore.fetchTestRows()}> 
+            Run test again! 
+        </button>
+
+        <hr />
+        Time passed: {vm.timer}
+        <div>
+            Rows:
+            {vm.testRows.map(row => (
+                <div> {row.value} </div>
+            ))}
+        </div>
+    </div>
+))
+
+// FetchTimer is ready to be rendered
 
 ```
+
+
+
