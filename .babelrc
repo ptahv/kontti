@@ -1,7 +1,7 @@
 {
     "presets": [ "env", "react" ],
     "plugins": [ 
-        "external-helpers",
+        "array-includes",
         "transform-object-assign",
         "transform-object-rest-spread",
     ]
