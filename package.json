@@ -1,6 +1,6 @@
 {
   "name": "kontti",
-  "version": "2.0.0-alpha-5",
+  "version": "2.0.0-alpha-6",
   "description": "React viewmodel library",
   "main": "./lib/index.js",
   "scripts": {
@@ -12,6 +12,10 @@
     "type": "git",
     "url": "git+https://github.com/ptahv/kontti.git"
   },
+  "files":[
+    "lib",
+    "src"
+  ],
   "keywords": [
     "react",
     "state",
