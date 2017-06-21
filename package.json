@@ -1,12 +1,12 @@
 {
   "name": "kontti",
-  "version": "2.0.0-alpha-4",
+  "version": "2.0.0-alpha-5",
   "description": "React viewmodel library",
   "main": "./lib/index.js",
   "scripts": {
     "build": "babel src --out-dir lib",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
