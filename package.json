@@ -29,9 +29,8 @@
   },
   "homepage": "https://github.com/ptahv/kontti#readme",
   "peerDependencies": {
-    "lodash": "4.17.4",
-    "striimi": "1.1.1",
-    "prop-types": "15.5.10"
+    "react": "15.6.1",
+    "react-dom":"15.6.1"
   },
   "devDependencies": {
     "babel-cli": "6.24.1",
@@ -42,5 +41,9 @@
     "babel-preset-env": "1.5.2",
     "babel-preset-react": "6.24.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "lodash": "4.17.4",
+    "striimi": "1.1.1",
+    "prop-types": "15.5.10"
+  }
 }
