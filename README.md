@@ -122,8 +122,7 @@ GetPropsChanged returns true if props have changed on update.
 
 import {connector} from 'kontti';
 
-export default connector('firstValue', 'secondValue', 
-({
+export default connector('firstValue', 'secondValue', ({
     firstValue, 
     secondValue
 }, {
