@@ -5,14 +5,14 @@ import {cloneDeep} from './utils.js';
 import initCreateDefaultActions from './store/initCreateDefaultActions.js'
 
 export default (
-	values, 
-	actions,
+	values = {}, 
+	actions = () => ({}),
 ) => {
 	const storeKeys = Object.keys(values);
 	const pickAllowedValues = fp.pick(storeKeys);
 	const createDefaultActions = initCreateDefaultActions(storeKeys);
 
-	// Init Function
+	/* InitFunction */
 	return () => {
 		let _values = cloneDeep(values);
 		const _stream = stream(_values)
@@ -32,7 +32,6 @@ export default (
 		}
 
 		/* Create Store */
-
 		const store = {
 			subscribe: _stream.subscribe,
 			
