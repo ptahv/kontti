@@ -122,7 +122,7 @@ GetPropsChanged returns true if props have changed on update.
 
 import {connector} from 'kontti';
 
-export default ('firstValue', 'secondValue', 
+export default connector('firstValue', 'secondValue', 
 ({
     firstValue, 
     secondValue
@@ -148,7 +148,7 @@ export default ('firstValue', 'secondValue',
     )
 })
 
-´´´
+```
 
 ### Example
 
@@ -157,7 +157,6 @@ A simple example. Just to demonstrate the productivity of Kontti.
 ``` js
 
 /* Create a model */
-
 import {model} from 'kontti';
 
 const HelloModel = model({
@@ -198,7 +197,6 @@ const HelloYou = HelloModel(() => (
         <NameSetter />
         <NameDisplayer />
     </div>
-
 ))
 
 // HelloYou is ready to be rendered
@@ -234,7 +232,6 @@ const FetchModel = model({
 })
 
 /* Create the FetchTimer */
-
 const FetchTimer = FetchModel({
     timer: propTypes.number,
     testRows: propTypes.array
