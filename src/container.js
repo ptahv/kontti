@@ -106,7 +106,7 @@ export default ({
         componentWillUnmount() {
             this._isUnmounted = true;
 
-            if (isDistributor)
+            if (isSubscriber)
                 this._storeSubscription();
         }
 
