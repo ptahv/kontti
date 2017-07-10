@@ -70,7 +70,7 @@ Listened keys can be either list of string values or a propTypes -object.
 
 Component is a react component, either class or function. 
 
-Options contains options for the connector. At the moment options is only used to give contextTypes.
+Options contains options for the connector. At the moment options is only used to give context- or propTypes for the wrapped component.
 
 Component gets listened keys and their viewmodel values as props. Component also gets Model/State -function and ModelStore/StateStore- and Subscriber -objects as context, depending on the viewmodel -type.
 
@@ -84,7 +84,7 @@ React component which will be is wrapped by the connector.
 
 `options`
 
-An object, which is used for givin contextTypes for the wrapped component.
+An object, which is used to assign context- or propTypes for the wrapped component.
 
 `Model / State`
 

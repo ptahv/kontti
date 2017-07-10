@@ -14,36 +14,37 @@ export default (
 
 	/* InitFunction */
 	return () => {
-		let _values = cloneDeep(values);
-		const _stream = stream(_values)
+		const _storeStrm = stream(cloneDeep(values))
 
 		const _insert = (newValues) => {
 			const allowedValues = pickAllowedValues(newValues);
 
 			if (fp.isEmpty(allowedValues))
-				return false;
-				
-			_values = Object.assign({}, 
-				_values,
+				return null;
+
+			_storeStrm.setValues(Object.assign({}, 
+				_storeStrm.getValues(),
 				allowedValues
-			)
+			))
 
 			return allowedValues;
 		}
 
 		/* Create Store */
 		const store = {
-			subscribe: _stream.subscribe,
+			subscribe: _storeStrm.subscribe,
 			
 			get: (...keys) => {
 				if (fp.isEmpty(keys))
-					return _values;
+					return _storeStrm.getValues();
 
-				return fp.pick(keys, _values);
+				return fp.pick(keys, _storeStrm.getValues());
 			},
 
 			put: (newValues) => {
 				_insert(newValues);
+
+				return store;
 			},
 
 			set: (newValues) => {
@@ -52,9 +53,11 @@ export default (
 				if (!insertedValues)
 					return;
 				
-				_stream.emit({
+				_storeStrm.emit({
 					updatedKeys: Object.keys(insertedValues)
 				})
+
+				return store;
 			}
 		}
 

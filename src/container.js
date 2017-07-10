@@ -24,6 +24,7 @@ export default ({
     ViewComponent,
 }) => {
     const {
+        propTypes: componentPropTypes,
         contextTypes: componentContextTypes
     } = options;
 
@@ -49,6 +50,7 @@ export default ({
             ViewComponent.propTypes = Object.assign({}, 
                 ContainerComponent.propTypes,
                 ViewComponent.propTypes,
+                componentPropTypes,
                 propTypes,
             )
             ContainerComponent.propTypes = {};
