@@ -14,7 +14,8 @@ export default (
 
 	/* InitFunction */
 	return () => {
-		const _storeStrm = stream(cloneDeep(values))
+		let _storeValues = cloneDeep(values);
+		const _storeStrm = stream(null);
 
 		const _insert = (newValues) => {
 			const allowedValues = pickAllowedValues(newValues);
@@ -22,10 +23,10 @@ export default (
 			if (fp.isEmpty(allowedValues))
 				return null;
 
-			_storeStrm.setValues(Object.assign({}, 
-				_storeStrm.getValues(),
+			_storeValues = Object.assign({}, 
+				_storeValues,
 				allowedValues
-			))
+			)
 
 			return allowedValues;
 		}
@@ -36,9 +37,9 @@ export default (
 			
 			get: (...keys) => {
 				if (fp.isEmpty(keys))
-					return _storeStrm.getValues();
+					return _storeValues;
 
-				return fp.pick(keys, _storeStrm.getValues());
+				return fp.pick(keys, _storeValues);
 			},
 
 			put: (newValues) => {
@@ -53,9 +54,7 @@ export default (
 				if (!insertedValues)
 					return;
 				
-				_storeStrm.emit({
-					updatedKeys: Object.keys(insertedValues)
-				})
+				_storeStrm.emit(Object.keys(insertedValues))
 
 				return store;
 			}

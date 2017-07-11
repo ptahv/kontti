@@ -1,7 +1,7 @@
 import fp from 'lodash/fp';
 
 export default (component, subscribedKeys) => {
-    return component._store.subscribe(({updatedKeys}) => {
+    return component._store.subscribe((updatedKeys) => {
         if (component._isUnmounted)
             return;
 
