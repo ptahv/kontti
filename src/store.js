@@ -2,7 +2,7 @@ import fp from 'lodash/fp';
 import {stream} from 'striimi';
 
 import {cloneDeep} from './utils.js';
-import initCreateDefaultActions from './store/initCreateDefaultActions.js'
+import initCreateDefaultActions from './lib/createDefaultActions.js'
 
 export default (
 	values = {}, 
@@ -38,8 +38,10 @@ export default (
 			get: (...keys) => {
 				if (fp.isEmpty(keys))
 					return _storeValues;
+				
+				const _keys = Array.isArray(keys[0]) ? keys[0] : keys;
 
-				return fp.pick(keys, _storeValues);
+				return fp.pick(_keys, _storeValues);
 			},
 
 			put: (newValues) => {

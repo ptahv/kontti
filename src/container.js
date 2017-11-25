@@ -1,10 +1,10 @@
 import React from 'react';
 import fp from 'lodash/fp';
 
-import createStoreSubscription from './container/createStoreSubscription.js';
-import getListenerChildContext from './container/getListenerChildContext.js';
-import getDistributorChildContext from './container/getDistributorChildContext.js';
-import getContainerContext from './container/getContainerContext.js';
+import createStoreSubscription from './lib/createStoreSubscription.js';
+import getListenerChildContext from './lib/getListenerChildContext.js';
+import getDistributorChildContext from './lib/getDistributorChildContext.js';
+import getContainerContext from './lib/getContainerContext.js';
 
 import {shallowEquals} from './utils.js';
 
