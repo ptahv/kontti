@@ -12,7 +12,7 @@ const createStoreContextTypes = (konttiType) => {
 
     return {
         [storeName]: func.isRequired,
-        [storeName + 'Store']: object.isRequired,
+        [storeName + 'Store']: func.isRequired,
         _store: object.isRequired
     }
 }
