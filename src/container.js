@@ -122,9 +122,6 @@ export default ({
 
             return (
                 <ViewComponent
-                    ref={cmp => {
-                        this.ViewComponent = cmp
-                    }} 
                     {...props} 
                     >
                     {children}

@@ -1,6 +1,6 @@
 {
   "name": "kontti",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "React viewmodel library",
   "main": "./lib/index.js",
   "scripts": {
