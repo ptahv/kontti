@@ -6,7 +6,7 @@ import getListenerChildContext from './lib/getListenerChildContext.js';
 import getDistributorChildContext from './lib/getDistributorChildContext.js';
 import getContainerContext from './lib/getContainerContext.js';
 
-import {shallowEquals} from './utils.js';
+import equals from 'is-equal-shallow'
 
 export default ({
     konttiType, 
@@ -88,10 +88,11 @@ export default ({
 
             const nextStoreState = this._store.get(...subscribedKeys);
 
-            if (isPure && (!_storeChanged || shallowEquals(_storeState, nextStoreState)))
+            const stateEquals = equals(_storeState, nextStoreState)
+            if (isPure && (!_storeChanged || stateEquals))
                 return false;
 
-            else if (shallowEquals(props, nextProps) && shallowEquals(_storeState, nextStoreState))
+            else if (equals(props, nextProps) && stateEquals)
                 return false;   
 
             this._storeState = nextStoreState;
