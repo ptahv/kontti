@@ -1,6 +1,6 @@
 {
   "name": "kontti",
-  "version": "2.0.0-RC4",
+  "version": "2.0.0-RC5",
   "description": "React viewmodel library",
   "main": "./lib/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "viewmodel"
   ],
   "author": "Petri Tahvanainen",
-  "license": "BSD",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ptahv/kontti/issues"
   },
@@ -32,7 +32,7 @@
   "peerDependencies": {
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
-    "striimi": "^2.0.0-RC3",
+    "striimi": "^2.0.0",
     "lodash": "^4.17.10"
   },
   "devDependencies": {
@@ -42,8 +42,12 @@
     "babel-plugin-transform-object-assign": "6.22.0",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-preset-env": "1.7.0",
-    "babel-preset-react": "6.24.1",
-    "react": "16.4.1",
-    "react-dom": "16.4.1"
+    "babel-preset-react": "6.24.1"
+  },
+  "dependencies": {
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "striimi": "^2.0.0",
+    "lodash": "^4.17.10"
   }
 }
