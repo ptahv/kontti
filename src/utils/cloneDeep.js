@@ -10,16 +10,16 @@ const cloneDeep = (obj) => {
         return new obj.constructor(obj);
 
     /* eslint-disable guard-for-in */
-    var deepClonedObj = new obj.constructor();
-    for (var name in obj)
+    let clonedObj = new obj.constructor();
+    for (let name in obj)
     {
-        deepClonedObj[name] = typeof deepClonedObj[name] === "undefined" 
+        clonedObj[name] = typeof clonedObj[name] === "undefined" 
             ? cloneDeep(obj[name]) 
-            : deepClonedObj[name];
+            : clonedObj[name];
     }
     /* eslint-enable guard-for-in */
 
-    return deepClonedObj; 
+    return clonedObj; 
 }
 
 export default cloneDeep;

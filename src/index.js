@@ -1,24 +1,27 @@
 /**
- * @license
- * Copyright 2015-present, Petri Tahvanainen.
- * All rights reserved.
+ * Copyright (c) 2015-present, Petri Tahvanainen.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. 
- *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
-import kontti from './kontti.js';
+import {createContext} from 'react';
 
-export const model = kontti.model;
-export const state = kontti.state;
-export const connector = kontti.connector;
-export const pureConnector = kontti.pureConnector;
+import createContainer from './lib/container.jsx';
+import createConsumer from './lib/consumer.jsx';
+import createProvider from './lib/provider.jsx';
+
+export const container = createContainer;
+
+const GlobalContainer = createContext();
+export const Consumer = createConsumer(GlobalContainer);
+export const provider = createProvider(GlobalContainer);
 
 export default {
-	model,
-	state,
+    provider,
+    Consumer,
 
-	connector,
-	pureConnector
+    // Can be used to create a private state
+    //
+    container
 }
