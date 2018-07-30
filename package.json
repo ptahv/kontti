@@ -1,6 +1,6 @@
 {
   "name": "kontti",
-  "version": "2.0.0-RC2",
+  "version": "2.0.0-RC3",
   "description": "React viewmodel library",
   "main": "./lib/index.js",
   "scripts": {
@@ -42,10 +42,10 @@
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
     "react": "16.4.1",
-    "react-dom": "16.4.1",
-    "is-equal-shallow": "0.1.3",
-    "lodash": "4.17.10",
-    "prop-types": "15.5.10",
-    "striimi": "2.0.0-RC1"
+    "react-dom": "16.4.1"
+  },
+  "dependencies": {
+    "striimi": "2.0.0-RC1",
+    "lodash": "4.17.10"
   }
 }
