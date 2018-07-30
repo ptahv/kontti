@@ -7,8 +7,8 @@
 
 import React from 'react';
 
-import withChildren from '../utils/withChildren.js';
-import keysSubscriptionFactory from '../utils/keysSubscriptionFactory.js';
+import withChildren from '../utils/withChildren';
+import keysSubscriptionFactory from '../utils/keysSubscriptionFactory';
 
 export default class Kontti extends React.Component {
     constructor({store, listenedKeys}) {

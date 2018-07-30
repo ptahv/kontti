@@ -7,9 +7,9 @@
 
 import {createContext} from 'react';
 
-import createContainer from './lib/container.jsx';
-import createConsumer from './lib/consumer.jsx';
-import createProvider from './lib/provider.jsx';
+import createContainer from './lib/container';
+import createConsumer from './lib/consumer';
+import createProvider from './lib/provider';
 
 export const container = createContainer;
 

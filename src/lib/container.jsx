@@ -7,8 +7,8 @@
 
 import {createContext} from 'react';
 
-import createProvider from './provider.jsx';
-import createConsumer from './consumer.jsx';
+import createProvider from './provider';
+import createConsumer from './consumer';
 
 export default (...providerConfig) => {
     const Container = createContext();

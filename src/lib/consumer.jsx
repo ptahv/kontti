@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import Kontti from './kontti.js';
+import Kontti from './kontti';
 
 export default (Container) => ({children, ...listenedKeysObj}) => (
     <Container.Consumer>

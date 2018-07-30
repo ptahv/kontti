@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import Kontti from './kontti.js';
+import Kontti from './kontti';
 
-import createStore from './store.js'
+import createStore from './store'
 
 export default (Container) => (values, actionsFn) => (
     class Provider extends React.Component {

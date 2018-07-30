@@ -8,7 +8,7 @@
 import fp from 'lodash/fp';
 import {stream} from 'striimi';
 
-import cloneDeep from '../utils/cloneDeep.js';
+import cloneDeep from '../utils/cloneDeep';
 
 export default (values,	actionsFn) => {
     let store 	            = cloneDeep(values);
