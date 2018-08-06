@@ -40,13 +40,14 @@ export default (values,	actionsFn) => {
         if (fp.isEmpty(keys))
             return store;
 
-        const _keys = typeof keys[0] === 'function'
-            ? keys[0](store)
-            : Array.isArray(keys[0]) 
-                ? keys[0] 
-                : keys;
+        if (typeof keys[0] === 'function')
+            return keys[0](store);
+
+        return fp.pick(
+            Array.isArray(keys[0]) ? keys[0] : keys,
+            store
+        );
         
-        return fp.pick(_keys, store);
     }, {prototype: {name: 'get'}});
 
     let actions = actionsFn({
