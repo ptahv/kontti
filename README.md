@@ -169,9 +169,9 @@ import {provider} from 'kontti';
 export default provider({
     counter: 0
 }, ({ set, get }) => ({
-    increaseCounter: () => set(vm => ({ counter: vm + 1 })),
+    increaseCounter: () => set(vm => ({ counter: vm.counter + 1 })),
 
-    increaseCounterByN: (n = 0) => set(vm => ({ counter: vm + n }))
+    increaseCounterByN: (n = 0) => set(vm => ({ counter: vm.counter + n }))
 
     getCounter: () => get(vm => vm.counter)
 }))
