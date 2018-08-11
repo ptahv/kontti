@@ -137,17 +137,19 @@ import {Consumer} from 'kontti';
 import ProviderParent from './ProviderParent';
 
 export default () => (
-    <Consumer person>
-        {(vm, m) => (
-            <div>
-                <button onClick={() => m.addPerson('Jack Sparrow')} value='Add Jack Sparrow' />
-                <br />
-                <button onClick={() => alert(m.getPersonUpperCase() + '!')} value='Yell current person!' />
-                <hr />
-                {'Hello ' + vm.person}
-            </div>
-        )}
-    </Consumer>
+    <ProviderParent>
+        <Consumer person>
+            {(vm, m) => (
+                <div>
+                    <button onClick={() => m.addPerson('Jack Sparrow')} value='Add Jack Sparrow' />
+                    <br />
+                    <button onClick={() => alert(m.getPersonUpperCase() + '!')} value='Yell current person!' />
+                    <hr />
+                    {'Hello ' + vm.person}
+                </div>
+            )}
+        </Consumer>
+    </ProviderParent>
 )
 
 ```
