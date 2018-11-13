@@ -1,14 +1,8 @@
-/**
- * Copyright (c) 2015-present, Petri Tahvanainen.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-import fp from 'lodash/fp';
+import pick from 'lodash/fp/pick';
+import isEmpty from 'lodash/fp/isEmpty';
 import {stream} from 'striimi';
 
-import cloneDeep from '../utils/cloneDeep';
+import cloneDeep from '../lib/cloneDeep.js';
 
 export default (values,	actionsFn) => {
     let store 	            = cloneDeep(values);
@@ -22,9 +16,9 @@ export default (values,	actionsFn) => {
             ? newValues(store)
             : newValues;
 
-		const allowedValues = fp.pick(storeKeys, values);
+		const allowedValues = pick(storeKeys, values);
 
-        if (!fp.isEmpty(allowedValues)) {
+        if (!isEmpty(allowedValues)) {
             store = Object.assign({}, 
                 store,
                 allowedValues
@@ -37,13 +31,13 @@ export default (values,	actionsFn) => {
     // Could show an error if looking for keys that doesnt exist in store
     //
     const get = Object.assign((...keys) => {
-        if (fp.isEmpty(keys))
+        if (isEmpty(keys))
             return store;
 
         if (typeof keys[0] === 'function')
             return keys[0](store);
 
-        return fp.pick(
+        return pick(
             Array.isArray(keys[0]) ? keys[0] : keys,
             store
         );

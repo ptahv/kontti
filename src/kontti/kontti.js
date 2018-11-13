@@ -1,14 +1,7 @@
-/**
- * Copyright (c) 2015-present, Petri Tahvanainen.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 import React from 'react';
 
-import withChildren from '../utils/withChildren';
-import keysSubscriptionFactory from '../utils/keysSubscriptionFactory';
+import withChildren from '../lib/withChildren.js';
+import keysSubscriptionFactory from '../lib/keysSubscriptionFactory.js';
 
 export default class Kontti extends React.Component {
     constructor({store, listenedKeys}) {

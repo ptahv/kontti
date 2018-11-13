@@ -1,14 +1,7 @@
-/**
- * Copyright (c) 2015-present, Petri Tahvanainen.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 import React from 'react';
-import Kontti from './kontti';
+import Kontti from './kontti.js';
 
-import createStore from './store'
+import createStore from './store.js'
 
 export default (Container) => (values, actionsFn) => (
     class Provider extends React.Component {

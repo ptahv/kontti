@@ -1,8 +1,10 @@
 {
-    "presets": [ "env", "react" ],
-    "plugins": [ 
-        "array-includes",
-        "transform-object-assign",
-        "transform-object-rest-spread"
-    ]
+    "presets": [
+        ["@babel/preset-env",
+            {
+            "useBuiltIns": "usage",
+            "loose" : true
+            }
+        ], 
+        "@babel/preset-react"]
 }
