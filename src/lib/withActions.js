@@ -1,4 +1,4 @@
-import upperFirst from 'lodash/fp/upperfirst';
+import upperFirst from 'lodash/fp/upperFirst';
 
 const actions = {
     get: (get, key) => () => get()[key],
