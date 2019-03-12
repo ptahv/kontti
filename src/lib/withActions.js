@@ -2,16 +2,17 @@ import upperFirst from 'lodash/fp/upperFirst';
 
 const actions = {
     get: (get, key) => () => get()[key],
-    set: (set, key) => (val) => set({ [key]: val })
+    set: (set, key) => (val) => set({ [key]: val }),
+    put: (put, key) => (val) => put({ [key]: val })
 }
 
-export default (action, ...keysparam) => {
-    const { name } = action.prototype;
-
+export default (action, ...keysParam) => {
+    const { name } = action.prototype.name;
+    
     if (!Object.keys(actions).includes(name))
         return {}
 
-    const keys = Array.isArray(keysparam[0])
+    const keys = Array.isArray(keysParam[0])
         ? keysParam[0]
         : keysParam;
 

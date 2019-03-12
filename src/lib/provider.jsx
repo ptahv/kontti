@@ -1,71 +1,80 @@
 import React from 'react';
 
-import pick from 'lodash/fp/pick';
-import isEmpty from 'lodash/fp/isEmpty';
-import cloneDeep from 'lodash/fp/cloneDeep';
+import Kontti from './kontti.jsx';
 
-import createConsumer from './consumer.jsx';
+import createStore from './store.js';
 
-export default (Container) => (initValues, actionsFn) => {
-    const Consumer = createConsumer(Container);
+export default (Container) => (initValues, actionsFn) =>
+    class Provider extends React.Component {
+        updateSent = true;
+        parentUpdatedIndicator = false;
 
-    const modelKeys = Object.keys(initValues);
+        constructor() {
+            super();
 
-    return class Provider extends React.Component {
-        state = { 
-            values: cloneDeep(initValues),
-            updatedKeys: [],
-            updatedIndicator: false
+            const store = createStore(initValues);
+
+            this.state = {
+                get: store.get,
+
+                updatedKeys: [],
+                modelUpdatedIndicator: false,
+
+                actions: actionsFn({
+                    'get': Object.assign(store.get, 
+                        { prototype: { name: 'get' }}),
+
+                    'set': Object.assign((values) => store.update(
+                        values,
+                        ({ updatedKeys }) => {
+                            if (!this.updateSent) {
+                                this.state.updatedKeys = this.state.updatedKeys.concat(updatedKeys);
+                            
+                            } else {
+                                this.updateSent = false;
+                                this.setState({
+                                    updatedKeys,
+                                    modelUpdatedIndicator: !this.state.modelUpdatedIndicator
+                                })
+                            }
+                        }),
+                        { prototype: { name: 'set' }}),
+
+                    'put': Object.assign((values) => store.update(
+                        values,
+                        ({ updatedKeys }) => {
+                            this.state.updatedKeys = updatedKeys;
+                        }),
+                        { prototype: { name: 'put' }})
+                })
+            }
+        }
+        
+        shouldComponentUpdate(nextProps, nextState) {
+            if (this.state.modelUpdatedIndicator === nextState.modelUpdatedIndicator)
+                this.parentUpdatedIndicator = !this.parentUpdatedIndicator;
+
+            return true;
         }
 
-        actions = actionsFn({
-            set: Object.assign((newValues = {}) => {
-                const { values, updatedIndicator } = this.state;
-
-                const allowedValues = pick(modelKeys,
-                    typeof newValues === 'function'
-                        ? newValues(values)
-                        : newValues    
-                )
-
-                if (!isEmpty(allowedValues)) {
-                    this.setState({
-                        values: Object.assign({}, values, allowedValues),
-                        updatedKeys: Object.keys(allowedValues),
-                        updatedIndicator: !updatedIndicator
-                    })
-                }
-            }, { prototype: { name: 'set' }}),
-
-            get: Object.assign((...keys) => {
-                const { values } = this.state;
-
-                if (isEmpty(keys))
-                    return values;
-
-                if (typeof keys[0] === 'function')
-                    return keys[0](values)
-
-                return pick(
-                    Array.isArray(keys[0]) ? keys[0] : keys, 
-                    values
-                )
-            }, { prototype: { name: 'get' }})
-        })
-
         render() {
-            const { props, state, actions } = this;
+            this.updateSent = true;
 
+            const {
+                children, 
+                ...keyProps
+            } = this.props;
+            
             return (
-                <Container.Provider value={{
-                    actions: actions,
-                    ...state
-                }}>
-                    { props.children 
-                        ? <Consumer { ...props } /> 
-                        : null }
+                <Container.Provider value={this.state}>
+                    <Kontti
+                        keysObj={keyProps}
+                        parentUpdatedIndicator={this.parentUpdatedIndicator}
+                        {...this.state}
+                        >
+                        {children}
+                    </Kontti>
                 </Container.Provider>
             )
         }
     }
-}
